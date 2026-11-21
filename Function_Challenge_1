@@ -1,1 +1,141 @@
+#include <iostream>
+#include <limits>
+#include <cmath>
+#include <iomanip>
 
+double getValidPositiveDouble(const std::string& prompt);
+int getValidMenuChoice(int min, int max);
+
+int main() {
+    const double PI = 3.14159265358979323846;
+    int choice;
+
+    std::cout << std::fixed << std::setprecision(2);
+
+    do {
+
+        std::cout << "\n--- Geometry Calculator ---\n";
+        std::cout << "1. Area of a Circle\n";
+        std::cout << "2. Perimeter of a Circle\n";
+        std::cout << "3. Area of a Rectangle\n";
+        std::cout << "4. Perimeter of a Rectangle\n";
+        std::cout << "5. Quit\n";
+
+        choice = getValidMenuChoice(1, 5);
+
+        switch (choice) {
+            case 1: {
+                double radius = getValidPositiveDouble("Enter the radius of the circle: ");
+                double area = PI * std::pow(radius, 2);
+                std::cout << "Area of the Circle: " << area << "\n";
+                break;
+            }
+            case 2: {
+                double radius = getValidPositiveDouble("Enter the radius of the circle: ");
+                double perimeter = 2 * PI * radius;
+                std::cout << "Perimeter (Circumference) of the Circle: " << perimeter << "\n";
+                break;
+            }
+            case 3: {
+                double length = getValidPositiveDouble("Enter the length of the rectangle: ");
+                double width = getValidPositiveDouble("Enter the width of the rectangle: ");
+                double area = length * width;
+                std::cout << "Area of the Rectangle: " << area << "\n";
+                break;
+            }
+            case 4: {
+                double length = getValidPositiveDouble("Enter the length of the rectangle: ");
+                double width = getValidPositiveDouble("Enter the width of the rectangle: ");
+                double perimeter = 2 * (length + width);
+                std::cout << "Perimeter of the Rectangle: " << perimeter << "\n";
+                break;
+            }
+            case 5: {
+                std::cout << "Exiting program. Goodbye!\n";
+                break;
+            }
+        }
+    } while (choice != 5);
+
+    return 0;
+}
+
+int getValidMenuChoice(int min, int max) {
+    int choice;
+    while (true) {
+        std::cout << "Enter your choice (" << min << "-" << max << "): ";
+        if (std::cin >> choice) {
+
+             if (std::cin.peek() == '\n' && choice >= min && choice <= max) {
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                return choice;
+            }
+        }
+        std::cout << "Invalid input. Please enter a whole number between " << min << " and " << max << ".\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+} 
+
+double getValidPositiveDouble(const std::string& prompt) {
+    double value;
+    while (true) {
+        std::cout << prompt;
+        if (std::cin >> value) {
+            if (std::cin.peek() == '\n' && value > 0) {
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                return value;
+            }
+        }
+        std::cout << "Invalid input. Please enter a positive number greater than 0.\n";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+}
+
+#include <iostream>
+#include <iomanip>
+
+double calculateArea(const double radius);
+double calculateArea(const double length, const double width);
+double calculatePerimeter(const double radius);
+double calculatePerimeter(const double length, const double width);
+
+int main() {
+    double radius = 0.0;
+    double length = 0.0;
+    double width = 0.0;
+
+    std::cout << "Enter the radius of the circle: ";
+    std::cin >> radius;
+
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "Circle Area: " << calculateArea(radius) << "\n";
+    std::cout << "Circle Circumference: " << calculatePerimeter(radius) << "\n\n";
+
+    std::cout << "Enter the length and width of the rectangle: ";
+    std::cin >> length >> width;
+
+    std::cout << "Rectangle Area: " << calculateArea(length, width) << "\n";
+    std::cout << "Rectangle Perimeter: " << calculatePerimeter(length, width) << "\n";
+
+    return 0;
+}
+
+double calculateArea(const double radius) {
+    const double PI = 3.14159;
+    return PI * radius * radius;
+}
+
+double calculateArea(const double length, const double width) {
+    return length * width;
+}
+
+double calculatePerimeter(const double radius) {
+    const double PI = 3.14159;
+    return 2.0 * PI * radius;
+}
+
+double calculatePerimeter(const double length, const double width) {
+    return 2.0 * (length + width);
+}
